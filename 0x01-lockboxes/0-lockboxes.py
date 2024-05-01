@@ -1,19 +1,28 @@
 #!/usr/bin/python3
 
+
 def canUnlockAll(boxes):
-    if not isinstance(boxes, list):
-        return False  # Ensures that the input is a list of lists
-    n = len(boxes)  # Total number of boxes
-    unlocked = [False] * n  # List to track which boxes are unlocked
-    unlocked[0] = True  # The first box is unlocked
-    keys = set(boxes[0])  # Start with keys from the first box
-    opened = {0}  # Set to track opened boxes
-    # Process the keys to open more boxes
-    while keys:
-        key = keys.pop()  # Get a key
-        if key < n and not unlocked[key]:  # If the key can open a new box
-            unlocked[key] = True  # Unlock the corresponding box
-            opened.add(key)  # Add to the opened boxes
-            keys.update(boxes[key])  # Add the new box's keys to the collection
-    # If all boxes are unlocked, return True; otherwise, return False
-    return all(unlocked)
+  """
+  This function determines if all boxes can be unlocked using the keys provided.
+
+  Args:
+      boxes: A list of lists, where each sublist represents the keys that can open a specific box.
+
+  Returns:
+      True if all boxes can be unlocked, False otherwise.
+  """
+
+  n = len(boxes)
+  unlocked = set([0])  # Track unlocked boxes using a set for faster membership checks
+  keys = set(boxes[0])  # Start with keys from the first box
+
+  # Process keys until all boxes are unlocked or no more keys are available
+  while keys and len(unlocked) != n:
+    new_keys = set()
+    for key in keys:
+      if key < n and key not in unlocked:
+        unlocked.add(key)
+        new_keys.update(boxes[key])
+    keys = new_keys
+
+  return len(unlocked) == n
