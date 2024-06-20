@@ -3,22 +3,21 @@
 Main file for testing
 """
 
-def makeChange(coins, total):
+
+def makeChange(coins, amount):
     """
-    Determines the fewest number of coins needed to meet a given total.
+    How many of this type of coin can I get with my money? Okay,
+        I'll take that many. Now, how much money do I have left?
+        And how many coins do I have in my pocket?
     """
-    if total <= 0:
+    if amount < 1:
         return 0
-
-    # Initialize the dp array with a large number for all values except dp[0]
-    dp = [float('inf')] * (total + 1)
-    dp[0] = 0
-
-    # Populate the dp array
+    coins.sort(reverse=True)
+    count = 0
     for coin in coins:
-        for x in range(coin, total + 1):
-            if dp[x - coin] != float('inf'):
-                dp[x] = min(dp[x], dp[x - coin] + 1)
-
-    # If dp[total] is still float('inf'), return -1, otherwise return dp[total]
-    return dp[total] if dp[total] != float('inf') else -1
+        if amount == 0:
+            break
+        num = amount // coin
+        amount -= num * coin
+        count += num
+    return count if amount == 0 else -1
