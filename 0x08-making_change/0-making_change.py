@@ -1,7 +1,14 @@
 #!/usr/bin/python3
-
+"""
+Main file for testing
+"""
 
 def makeChange(coins, total):
+    """
+    How many of this type of coin can I get with my money? Okay,
+        I'll take that many. Now, how much money do I have left?
+        And how many coins do I have in my pocket?
+    """
     if total <= 0:
         return 0
 
