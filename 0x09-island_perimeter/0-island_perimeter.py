@@ -4,7 +4,6 @@
 def island_perimeter(grid):
     # Initialize the perimeter
     perimeter = 0
-    
     # Get the number of rows and columns in the grid
     rows = len(grid)
     cols = len(grid[0])
@@ -34,4 +33,3 @@ def island_perimeter(grid):
                     perimeter -= 1
 
     return perimeter
-
