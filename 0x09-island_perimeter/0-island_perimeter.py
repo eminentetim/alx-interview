@@ -1,35 +1,27 @@
 #!/usr/bin/python3
+"""Island Perimeter Problem
+"""
 
 
 def island_perimeter(grid):
-    # Initialize the perimeter
-    perimeter = 0
-    # Get the number of rows and columns in the grid
-    rows = len(grid)
-    cols = len(grid[0])
-    
-    # Loop through each cell in the grid
-    for i in range(rows):
-        for j in range(cols):
-            # If the cell is land
-            if grid[i][j] == 1:
-                # Start by adding 4 to the perimeter for the current land cell
-                perimeter += 4
-                
-                # Check the cell above (if it exists and is land)
-                if i > 0 and grid[i - 1][j] == 1:
-                    perimeter -= 1
-                
-                # Check the cell below (if it exists and is land)
-                if i < rows - 1 and grid[i + 1][j] == 1:
-                    perimeter -= 1
-                
-                # Check the cell to the left (if it exists and is land)
-                if j > 0 and grid[i][j - 1] == 1:
-                    perimeter -= 1
-                
-                # Check the cell to the right (if it exists and is land)
-                if j < cols - 1 and grid[i][j + 1] == 1:
-                    perimeter -= 1
+    """
+    Calculates the perimeter of the island described in grid
+    Args:
+        grid: 2d list of integers containing 0(water) or 1(land)
+    Return:
+        the perimeter of the island
+    """
 
-    return perimeter
+    p = 0
+    for i in range(len(grid)):
+        for j in range(len(grid[i])):
+            if (grid[i][j] == 1):
+                if (i <= 0 or grid[i - 1][j] == 0):
+                    p += 1
+                if (i >= len(grid) - 1 or grid[i + 1][j] == 0):
+                    p += 1
+                if (j <= 0 or grid[i][j - 1] == 0):
+                    p += 1
+                if (j >= len(grid[i]) - 1 or grid[i][j + 1] == 0):
+                    p += 1
+    return p
