@@ -1,47 +1,42 @@
-def sieve_of_eratosthenes(max_n):
-    is_prime = [True] * (max_n + 1)
-    is_prime[0] = is_prime[1] = False
-    p = 2
-    while p * p <= max_n:
-        if is_prime[p]:
-            for i in range(p * p, max_n + 1, p):
-                is_prime[i] = False
-        p += 1
-    return [num for num, prime in enumerate(is_prime) if prime]
+#!/usr/bin/python3
+"""0. Prime Game - Maria and Ben are playing a game"""
 
-def play_game(n, primes):
-    remaining_numbers = set(range(1, n + 1))
-    turn = 0  # 0 for Maria, 1 for Ben
-    while True:
-        made_move = False
-        for prime in primes:
-            if prime in remaining_numbers:
-                # Remove the prime and its multiples
-                multiple = prime
-                while multiple <= n:
-                    remaining_numbers.discard(multiple)
-                    multiple += prime
-                made_move = True
-                break
-        if not made_move:
-            return turn  # The player who couldn't make a move loses
-        turn = 1 - turn  # Switch turns
 
 def isWinner(x, nums):
-    max_n = max(nums)
-    primes = sieve_of_eratosthenes(max_n)
-    maria_wins = 0
-    ben_wins = 0
-    for n in nums:
-        winner = play_game(n, primes)
-        if winner == 0:
-            ben_wins += 1
-        else:
-            maria_wins += 1
-    if maria_wins > ben_wins:
-        return "Maria"
-    elif ben_wins > maria_wins:
-        return "Ben"
-    else:
+    """x - rounds
+    nums - numbers list
+    """
+    if x <= 0 or nums is None:
+        return None
+    if x != len(nums):
         return None
 
+    ben = 0
+    maria = 0
+
+    a = [1 for x in range(sorted(nums)[-1] + 1)]
+    a[0], a[1] = 0, 0
+    for i in range(2, len(a)):
+        rm_multiples(a, i)
+
+    for i in nums:
+        if sum(a[0:i + 1]) % 2 == 0:
+            ben += 1
+        else:
+            maria += 1
+    if ben > maria:
+        return "Ben"
+    if maria > ben:
+        return "Maria"
+    return None
+
+
+def rm_multiples(ls, x):
+    """removes multiple
+    of primes
+    """
+    for i in range(2, len(ls)):
+        try:
+            ls[i * x] = 0
+        except (ValueError, IndexError):
+            break
